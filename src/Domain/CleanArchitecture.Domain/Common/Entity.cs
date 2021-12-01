@@ -1,10 +1,12 @@
-﻿namespace CleanArchitecture.Domain.Common {
+﻿#nullable disable
+
+namespace CleanArchitecture.Domain.Common {
     using System;
     using System.Collections.Generic;
 
-    public abstract class Entity<T> {
+    public abstract class Entity<T> where T : notnull {
 
-        public T Id { get; private set; }
+        public T Id { get; protected set; }
 
         public override bool Equals(object obj) {
             return obj is Entity<T> entity &&
