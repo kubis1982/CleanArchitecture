@@ -4,7 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<RootNamespace>CleanArchitecture.Domain</RootNamespace>
 		<AssemblyName>CleanArchitecture.Domain</AssemblyName>
-		<!--<Nullable>enable</Nullable>-->
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 </Project>

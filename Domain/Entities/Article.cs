@@ -3,8 +3,8 @@
     using Domain.Common;
     using System.Collections.Generic;
 
-    public class Article : Entity<int> {
-        public Article(string code, string name, string unit) {
+    public class Article : Entity<int>, IAggregateRoot {
+        public Article(string code, string name, string unit, UserChanger user) {
             if (string.IsNullOrWhiteSpace(code)) {
                 throw new System.ArgumentException($"'{nameof(code)}' cannot be null or whitespace.", nameof(code));
             }
@@ -20,6 +20,7 @@
             Code = code;
             Name = name;
             Unit = unit;
+            Created = user ?? throw new System.ArgumentNullException(nameof(user));
 
             Units = new List<ArticleUnit>();
         }
@@ -29,6 +30,10 @@
         public string Name { get; }
 
         public string Unit { get; }
+
+        public UserChanger Created { get; }
+
+        public UserChanger? Modified { get; private set; }
 
         public ICollection<ArticleUnit> Units { get; }
     }
