@@ -1,9 +1,7 @@
-﻿namespace Domain.Common {
+﻿namespace CleanArchitecture.Domain.Common {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public abstract class ValueObject {
         protected static bool EqualOperator(ValueObject left, ValueObject right) {
@@ -20,7 +18,7 @@
 
         protected abstract IEnumerable<object> GetEqualityComponents();
 
-        public override bool Equals(object? obj) {
+        public override bool Equals(object obj) {
             if (obj == null || obj.GetType() != GetType()) {
                 return false;
             }

@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>CleanArchitecture.Domain</RootNamespace>
+		<AssemblyName>CleanArchitecture.Domain</AssemblyName>
+		<!--<Nullable>enable</Nullable>-->
+	</PropertyGroup>
 
 </Project>
