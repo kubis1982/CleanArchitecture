@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance {
+﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore {
     public enum Schema {
         Seven
     }

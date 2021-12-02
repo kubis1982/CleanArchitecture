@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance {
+﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

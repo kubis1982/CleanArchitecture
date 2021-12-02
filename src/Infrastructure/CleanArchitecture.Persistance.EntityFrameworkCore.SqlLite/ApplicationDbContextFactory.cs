@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance.SqlLite {
+﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore.SqlLite {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
 

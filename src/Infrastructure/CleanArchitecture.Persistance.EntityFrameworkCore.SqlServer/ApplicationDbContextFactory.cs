@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance.SqlServer {
+﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore.SqlServer {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
 

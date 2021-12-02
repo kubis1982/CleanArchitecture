@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance.Configurations {
+﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore.Configurations {
     using CleanArchitecture.Domain.Entities;
     using CleanArchitecture.Domain.ValueObjects;
     using Microsoft.EntityFrameworkCore;
