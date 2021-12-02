@@ -1,10 +1,11 @@
-﻿namespace CleanArchitecture.Domain.Common {
+﻿namespace CleanArchitecture.Persistance.SqlServer {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IAggregateRoot {
+    internal enum Schema {
+        Seven
     }
 }
