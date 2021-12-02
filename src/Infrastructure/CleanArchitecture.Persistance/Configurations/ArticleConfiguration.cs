@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance.SqlServer.Configurations {
+﻿namespace CleanArchitecture.Persistance.Configurations {
     using CleanArchitecture.Domain.Entities;
     using CleanArchitecture.Domain.ValueObjects;
     using Microsoft.EntityFrameworkCore;

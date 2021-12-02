@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Persistance.SqlServer {
+﻿namespace CleanArchitecture.Persistance {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +10,5 @@
         public static OwnedNavigationBuilder<TOwnerEntity, TRelatedEntity> ToTable<TOwnerEntity, TRelatedEntity>(this OwnedNavigationBuilder<TOwnerEntity, TRelatedEntity> referenceOwnershipBuilder, Schema schema, string name) where TOwnerEntity : class where TRelatedEntity : class {
             return referenceOwnershipBuilder.ToTable(name, schema.ToString());
         }
-
-
     }
 }
