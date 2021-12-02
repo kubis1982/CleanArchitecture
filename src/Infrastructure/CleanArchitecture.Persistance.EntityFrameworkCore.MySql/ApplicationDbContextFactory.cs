@@ -5,10 +5,10 @@
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext> {
         public ApplicationDbContext CreateDbContext(string[] args) {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=CleanArchitectureDb;Integrated Security=True", 
+            optionsBuilder.UseMySql(ServerVersion.Parse("8.0.27"), 
                 n => { 
                     n.MigrationsHistoryTable("MigrationsHistory", Schema.Seven.ToString());
-                    n.MigrationsAssembly("CleanArchitecture.Persistance.SqlServer");
+                    n.MigrationsAssembly(GetType().Assembly.FullName);
                 } );
 
             return new ApplicationDbContext(optionsBuilder.Options);

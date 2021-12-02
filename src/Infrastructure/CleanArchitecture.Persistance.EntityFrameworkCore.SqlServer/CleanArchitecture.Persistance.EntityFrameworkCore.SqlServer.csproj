@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Persistance\CleanArchitecture.Persistance.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.Persistance.EntityFrameworkCore\CleanArchitecture.Persistance.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

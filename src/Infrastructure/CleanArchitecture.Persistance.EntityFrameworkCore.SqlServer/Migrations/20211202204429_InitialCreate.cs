@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CleanArchitecture.Persistance.SqlServer.Migrations
+namespace CleanArchitecture.Persistance.EntityFrameworkCore.SqlServer.Migrations
 {
     public partial class InitialCreate : Migration
     {

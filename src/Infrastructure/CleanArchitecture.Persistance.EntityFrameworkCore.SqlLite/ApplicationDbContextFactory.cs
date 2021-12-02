@@ -8,7 +8,7 @@
             optionsBuilder.UseSqlite("Data Source=CleanArchitectureDb.sqlite", 
                 n => {
                     n.MigrationsHistoryTable("MigrationsHistory", Schema.Seven.ToString());
-                    n.MigrationsAssembly("CleanArchitecture.Persistance.SqlLite");
+                    n.MigrationsAssembly(GetType().Assembly.FullName);
                 });
 
             return new ApplicationDbContext(optionsBuilder.Options);

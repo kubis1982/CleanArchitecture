@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CleanArchitecture.Persistance.SqlLite.Migrations
+namespace CleanArchitecture.Persistance.EntityFrameworkCore.MySql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211202195616_InitialCreate")]
+    [Migration("20211202204644_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,28 +16,29 @@ namespace CleanArchitecture.Persistance.SqlLite.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Seven")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.12");
 
             modelBuilder.Entity("CleanArchitecture.Domain.Entities.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(40)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");
 
@@ -52,11 +53,11 @@ namespace CleanArchitecture.Persistance.SqlLite.Migrations
                     b.OwnsMany("CleanArchitecture.Domain.ValueObjects.ArticleUnit", "AlternativeUnits", b1 =>
                         {
                             b1.Property<int>("ArticleId")
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("int");
 
                             b1.Property<string>("Unit")
                                 .HasMaxLength(10)
-                                .HasColumnType("TEXT");
+                                .HasColumnType("varchar(10)");
 
                             b1.HasKey("ArticleId", "Unit");
 
