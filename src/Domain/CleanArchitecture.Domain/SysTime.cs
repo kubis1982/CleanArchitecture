@@ -1,6 +1,4 @@
 ﻿namespace CleanArchitecture.Domain {
-    using CleanArchitecture.Domain.Entities;
-    using CleanArchitecture.Domain.Services;
     using System;
 
     public class SysTime {
