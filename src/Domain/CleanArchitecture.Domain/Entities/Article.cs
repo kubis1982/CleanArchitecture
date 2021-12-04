@@ -17,5 +17,13 @@
         public string Unit { get; set; } = string.Empty;
 
         public ICollection<ArticleUnit> AlternativeUnits { get; private set; }
+
+        public static Article Create(string code) {
+            if (string.IsNullOrWhiteSpace(code)) {
+                throw new ArgumentException($"'{nameof(code)}' cannot be null or whitespace.", nameof(code));
+            }
+
+            return new Article { Code = code };
+        }
     }
 }

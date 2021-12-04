@@ -4,7 +4,7 @@ namespace CleanArchitecture.Domain.Common {
     using System;
     using System.Collections.Generic;
 
-    public abstract class Entity<T> where T : notnull {
+    public abstract class Entity<T> : IEntity<T> where T : notnull {
 
         public T Id { get; protected set; }
 
