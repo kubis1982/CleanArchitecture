@@ -1,67 +1,69 @@
 ﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore {
     using CleanArchitecture.Domain.Common;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
+    using CleanArchitecture.Domain.Common.Repositories;
+    using Microsoft.EntityFrameworkCore;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class Repository<T> : IRepository<T> where T : class {
+    public class Repository<TEntity> : IInsertingEntity<TEntity, int>, IInsertingEntities<TEntity, int>, IUpdatingEntity<TEntity, int>, IUpdatingEntities<TEntity, int>, IDeletingEntity<TEntity, int>, IDeletingEntities<TEntity, int>, IContainingEntities, IContainingEntity<TEntity, int>, IGettingEntities<TEntity>, IGettingEntity<TEntity, int> 
+        where TEntity : class, IEntity<int> {
         private readonly ApplicationDbContext applicationDbContext;
 
-        public Repository(ApplicationDbContext applicationDbContext) {
+        internal Repository(ApplicationDbContext applicationDbContext) {
             this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task Insert(T entity, CancellationToken cancellationToken = default) {
+        public async virtual Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default) {
             applicationDbContext.Add(entity);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
+            return entity;
         }
 
-        public async Task Insert(T[] entities, CancellationToken cancellationToken = default) {
+        public async virtual Task<TEntity[]> InsertAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
             applicationDbContext.AddRange(entities);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
+            return entities;
         }
 
-        public async Task Delete(T entity, CancellationToken cancellationToken = default) {
+        public async virtual Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default) {
             applicationDbContext.Remove(entity);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Delete(T[] entities, CancellationToken cancellationToken = default) {
+        public async virtual Task DeleteAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
             applicationDbContext.RemoveRange(entities);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(T entity, CancellationToken cancellationToken = default) {
+        public async virtual Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default) {
             applicationDbContext.Update(entity);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
+            return entity;
         }
 
-        public async Task Update(T[] entities, CancellationToken cancellationToken = default) {
+        public async virtual Task<TEntity[]> UpdateAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
             applicationDbContext.UpdateRange(entities);
-            await applicationDbContext.SaveChangesAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
+            return entities;
         }
 
-        public Task<T> Get(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.Set<T>().Where(predicate).SingleOrDefault());
+        public virtual Task<bool> ContainsAsync(CancellationToken cancellationToken = default) {
+            return applicationDbContext.Set<TEntity>().AnyAsync(cancellationToken);
+        }
+        public Task<bool> ContainsAsync(TEntity entity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.Set<TEntity>().AnyAsync(n => n.Id == entity.Id, cancellationToken);
         }
 
-        public Task<IEnumerable<T>> GetArray(CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.Set<T>().ToList().AsEnumerable());
+        public Task<TEntity> GeEntity(TEntity entity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.Set<TEntity>().SingleOrDefaultAsync(n => n.Id == entity.Id);
         }
 
-        public Task<IEnumerable<T>> GetArray(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.Set<T>().Where(predicate).ToList().AsEnumerable());
+        public virtual Task<TEntity[]> GetEntities(CancellationToken cancellationToken = default) {
+            return applicationDbContext.Set<TEntity>().ToArrayAsync();
         }
 
-        public Task<bool> Any(CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.Set<T>().Any());
-        }
-
-        public Task<bool> Any(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.Set<T>().Any(predicate));
+        protected virtual Task SaveChangesAsync(CancellationToken cancellationToken) {
+            return applicationDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

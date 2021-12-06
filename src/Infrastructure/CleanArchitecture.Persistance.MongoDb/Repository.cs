@@ -1,62 +1,60 @@
 ﻿namespace CleanArchitecture.Persistance.MongoDb {
     using CleanArchitecture.Domain.Common;
+    using CleanArchitecture.Domain.Common.Repositories;
     using MongoDB.Driver;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class Repository<T> : IRepository<T> where T : class {
+    public class Repository<TEntity> : IInsertingEntity<TEntity, int>, IInsertingEntities<TEntity, int>, IUpdatingEntity<TEntity, int>, IUpdatingEntities<TEntity, int>, IDeletingEntity<TEntity, int>, IDeletingEntities<TEntity, int>, IContainingEntities, IContainingEntity<TEntity, int>, IGettingEntities<TEntity>, IGettingEntity<TEntity, int>
+        where TEntity : class, IEntity<int> {
         private readonly ApplicationDbContext applicationDbContext;
 
         public Repository(ApplicationDbContext applicationDbContext) {
             this.applicationDbContext = applicationDbContext;
         }
 
-        public Task<bool> Any(CancellationToken cancellationToken = default) {
-            return applicationDbContext.DbSet<T>().Find(FilterDefinition<T>.Empty).AnyAsync(cancellationToken);
+        public Task<bool> ContainsAsync(CancellationToken cancellationToken = default) {
+            return applicationDbContext.DbSet<TEntity>().Find(FilterDefinition<TEntity>.Empty).AnyAsync(cancellationToken);
         }
 
-        public Task<bool> Any(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return applicationDbContext.DbSet<T>().Find(predicate).AnyAsync(cancellationToken);
+        public Task<bool> ContainsAsync(TEntity entity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.DbSet<TEntity>().Find(n => n.Id == entity.Id).AnyAsync(cancellationToken);
         }
 
-        public Task Delete(T entity, CancellationToken cancellationToken = default) {
+        public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.DbSet<TEntity>().DeleteOneAsync(n => n.Id == entity.Id, cancellationToken);
+        }
+
+        public Task DeleteAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
             throw new NotImplementedException();
         }
 
-        public Task Delete(T[] entities, CancellationToken cancellationToken = default) {
+        public Task<TEntity> GeEntity(TEntity entity, CancellationToken cancellationToken = default) {
             throw new NotImplementedException();
         }
 
-        public Task<T> Get(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return applicationDbContext.DbSet<T>().Find(predicate).SingleOrDefaultAsync(cancellationToken);
+        public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default) {
+            await applicationDbContext.DbSet<TEntity>().InsertOneAsync(entity, null, cancellationToken);
+            return entity;
         }
 
-        public Task<IEnumerable<T>> GetArray(CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.DbSet<T>().Find(FilterDefinition<T>.Empty).ToList().AsEnumerable());
+        public async Task<TEntity[]> InsertAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
+            await applicationDbContext.DbSet<TEntity>().InsertManyAsync(entities, null, cancellationToken);
+            return entities;
         }
 
-        public Task<IEnumerable<T>> GetArray(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) {
-            return Task.FromResult(applicationDbContext.DbSet<T>().Find(predicate).ToList().AsEnumerable());
-        }
-
-        public Task Insert(T entity, CancellationToken cancellationToken = default) {
-            return applicationDbContext.DbSet<T>().InsertOneAsync(entity, null, cancellationToken);
-        }
-
-        public Task Insert(T[] entities, CancellationToken cancellationToken = default) {
-            return applicationDbContext.DbSet<T>().InsertManyAsync(entities, null, cancellationToken);
-        }
-
-        public Task Update(T entity, CancellationToken cancellationToken = default) {
+        public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default) {
             throw new NotImplementedException();
         }
 
-        public Task Update(T[] entities, CancellationToken cancellationToken = default) {
+        public Task<TEntity[]> UpdateAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
             throw new NotImplementedException();
+        }
+
+        public async Task<TEntity[]> GetEntities(CancellationToken cancellationToken) {
+            var list = await applicationDbContext.DbSet<TEntity>().FindAsync(FilterDefinition<TEntity>.Empty);
+            return list.ToList().ToArray();
         }
     }
 }
