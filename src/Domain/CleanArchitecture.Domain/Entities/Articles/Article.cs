@@ -1,5 +1,4 @@
-﻿namespace CleanArchitecture.Domain.Entities {
-    using CleanArchitecture.Domain.Exception;
+﻿namespace CleanArchitecture.Domain.Entities.Articles {
     using CleanArchitecture.Domain.ValueObjects;
     using Domain.Common;
     using System.Collections.Generic;

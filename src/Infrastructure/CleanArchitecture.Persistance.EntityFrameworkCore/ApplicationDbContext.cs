@@ -1,5 +1,5 @@
 ﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore {
-    using CleanArchitecture.Domain.Entities;
+    using CleanArchitecture.Domain.Entities.Articles;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata;
 

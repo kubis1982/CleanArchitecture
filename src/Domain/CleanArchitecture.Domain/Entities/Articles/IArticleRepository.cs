@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Domain.Repositories {
+﻿namespace CleanArchitecture.Domain.Entities.Articles {
     using CleanArchitecture.Domain.Common.Repositories;
     using CleanArchitecture.Domain.Entities;
 

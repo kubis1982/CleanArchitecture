@@ -1,9 +1,8 @@
 ﻿namespace CleanArchitecture.Persistance.EntityFrameworkCore.Configurations {
-    using CleanArchitecture.Domain.Entities;
+    using CleanArchitecture.Domain.Entities.Articles;
     using CleanArchitecture.Domain.ValueObjects;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using System;
 
     internal class ArticleConfiguration : IEntityTypeConfiguration<Article> {
         public void Configure(EntityTypeBuilder<Article> builder) {

@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Domain.Exception {
+﻿namespace CleanArchitecture.Domain.Entities.Articles {
     using System;
     using System.Collections.Generic;
     using System.Linq;
