@@ -1,29 +1,37 @@
 ﻿namespace CleanArchitecture.Domain.Entities {
+    using CleanArchitecture.Domain.Exception;
     using CleanArchitecture.Domain.ValueObjects;
     using Domain.Common;
-    using System;
     using System.Collections.Generic;
 
     public class Article : Entity<int> {
+        private ArticleCode code;
+        private string name;
+        private UnitName unit;
+        private HashSet<ArticleUnit> alternativeUnits = new HashSet<ArticleUnit>();
 
-        public Article() {
-            AlternativeUnits = new HashSet<ArticleUnit>();
+        public Article(ArticleCode code, string name, UnitName unit) {
+            this.code = code;
+            this.name = name;
+            this.unit = unit;
         }
 
-        public string Code { get; set; } = string.Empty;
+        public ArticleCode Code => code;
 
-        public string Name { get; set; } = string.Empty;
+        public string Name => name;
 
-        public string Unit { get; set; } = string.Empty;
+        public UnitName Unit => unit;
 
-        public ICollection<ArticleUnit> AlternativeUnits { get; private set; }
+        public IReadOnlyCollection<ArticleUnit> AlternativeUnits => alternativeUnits;
 
-        public static Article Create(string code) {
-            if (string.IsNullOrWhiteSpace(code)) {
-                throw new ArgumentException($"'{nameof(code)}' cannot be null or whitespace.", nameof(code));
+        public void AddUnit(ArticleUnit articleUnit) {
+            if (articleUnit.Unit == Unit) {
+                throw new ArticleException("Asortyment posiada jako jednostkę główną wskazaną jednostkę alternatywną.");
             }
 
-            return new Article { Code = code };
+            if (!alternativeUnits.Add(articleUnit)) {
+                throw new ArticleException("Asortyment posiada jednostkę alternatywną.");
+            }
         }
     }
 }

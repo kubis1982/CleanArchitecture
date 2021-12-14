@@ -3,6 +3,7 @@
     using CleanArchitecture.Domain.Common.Repositories;
     using MongoDB.Driver;
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,8 +31,8 @@
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> GeEntity(TEntity entity, CancellationToken cancellationToken = default) {
-            throw new NotImplementedException();
+        public Task<TEntity> GeEntity(int identity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.DbSet<TEntity>().Find(n => n.Id == identity).SingleOrDefaultAsync();
         }
 
         public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default) {
@@ -44,8 +45,10 @@
             return entities;
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default) {
-            throw new NotImplementedException();
+        public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default) {
+            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq(n => n.Id, entity.Id);
+            await applicationDbContext.DbSet<TEntity>().ReplaceOneAsync(filter, entity);
+            return entity;
         }
 
         public Task<TEntity[]> UpdateAsync(TEntity[] entities, CancellationToken cancellationToken = default) {
@@ -53,8 +56,8 @@
         }
 
         public async Task<TEntity[]> GetEntities(CancellationToken cancellationToken) {
-            var list = await applicationDbContext.DbSet<TEntity>().FindAsync(FilterDefinition<TEntity>.Empty);
-            return list.ToList().ToArray();
+            IAsyncCursor<TEntity> list = await applicationDbContext.DbSet<TEntity>().FindAsync(FilterDefinition<TEntity>.Empty);
+            return list.ToList(cancellationToken).ToArray();
         }
     }
 }

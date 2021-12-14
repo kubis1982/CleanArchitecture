@@ -5,6 +5,6 @@
     public interface IGettingEntity<TEntity, TIdentity> 
         where TEntity : class, IEntity<TIdentity>
         where TIdentity : notnull {
-        Task<TEntity> GeEntity(TEntity @object, CancellationToken cancellationToken = default);
+        Task<TEntity> GeEntity(TIdentity identity, CancellationToken cancellationToken = default);
     }
 }

@@ -3,7 +3,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public interface IGettingEntities<TEntity> where TEntity : class, IAggregate {
+    public interface IGettingEntities<TEntity> where TEntity : class {
         Task<TEntity[]> GetEntities(CancellationToken cancellationToken = default);
     }
 }

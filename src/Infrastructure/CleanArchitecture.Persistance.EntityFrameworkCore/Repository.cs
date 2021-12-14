@@ -36,7 +36,7 @@
         }
 
         public async virtual Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default) {
-            applicationDbContext.Update(entity);
+            if (applicationDbContext.Entry(entity).State == EntityState.Detached) applicationDbContext.Update(entity);
             await SaveChangesAsync(cancellationToken);
             return entity;
         }
@@ -54,8 +54,8 @@
             return applicationDbContext.Set<TEntity>().AnyAsync(n => n.Id == entity.Id, cancellationToken);
         }
 
-        public Task<TEntity> GeEntity(TEntity entity, CancellationToken cancellationToken = default) {
-            return applicationDbContext.Set<TEntity>().SingleOrDefaultAsync(n => n.Id == entity.Id);
+        public Task<TEntity> GeEntity(int identity, CancellationToken cancellationToken = default) {
+            return applicationDbContext.Set<TEntity>().FindAsync(identity).AsTask();
         }
 
         public virtual Task<TEntity[]> GetEntities(CancellationToken cancellationToken = default) {

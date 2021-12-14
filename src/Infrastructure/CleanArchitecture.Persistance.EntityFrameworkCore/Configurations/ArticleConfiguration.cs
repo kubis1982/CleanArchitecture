@@ -10,6 +10,9 @@
             builder.HasKey(e => e.Id);
 
             builder.Property(n => n.Code)
+                .HasConversion(
+                    n => n.Text,
+                    n => new ArticleCode(n))
                 .HasMaxLength(40)
                 .IsRequired();
 
@@ -19,10 +22,18 @@
                 .HasMaxLength(255);
 
             builder.Property(n => n.Unit)
+                 .HasConversion(
+                    n => n.Name,
+                    n => new UnitName(n))
                 .HasMaxLength(10);
 
             builder.OwnsMany(n => n.AlternativeUnits, n => {
-                n.Property(n => n.Unit).HasMaxLength(10);
+                n.Property(n => n.Unit)
+                  .HasConversion(
+                    n => n.Name,
+                    n => new UnitName(n))
+                  .HasMaxLength(10);
+
                 n.HasKey(nameof(Article) + nameof(Article.Id), nameof(ArticleUnit.Unit));
             });
         }
