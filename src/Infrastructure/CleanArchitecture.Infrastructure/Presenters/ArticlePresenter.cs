@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Infrastructure.Articles {
+﻿namespace CleanArchitecture.Infrastructure.Presenters {
     using CleanArchitecture.Application;
     using CleanArchitecture.Application.UseCases.Articles;
 
